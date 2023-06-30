@@ -8,7 +8,7 @@ import Header from "./components/header/header";
 
 function App() {
   //held states
-  const [currentWord, setCurrentWord] = useState("apple");
+  const [currentWord, setCurrentWord] = useState("");
   const [correctLetters, setCorrectLetters] = useState([]);
   const [wrongLetters, setWrongLetters] = useState([]);
   const [playable, setPlayable] = useState(true);
