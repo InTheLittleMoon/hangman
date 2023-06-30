@@ -1,0 +1,13 @@
+* {
+  margin: 0%;
+  padding: 0%;
+}
+
+.main-container {
+  position: relative;
+  top: 10vh;
+  margin: auto;
+  width: 35vw;
+  height: 75vh;
+  border: 1px solid black;
+}

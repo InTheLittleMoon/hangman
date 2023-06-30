@@ -1,0 +1,15 @@
+.used-letters-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 10vh;
+  border-bottom: 1px solid black;
+}
+
+.wrongLetters-title {
+  font-weight: bold;
+}
+
+.wrongLetters-receptical {
+  display: flex;
+}
