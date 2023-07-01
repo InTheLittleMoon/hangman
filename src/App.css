@@ -5,9 +5,9 @@
 
 .main-container {
   position: relative;
+  display: flex;
+  flex-direction: column;
   top: 10vh;
   margin: auto;
-  width: 35vw;
-  height: 75vh;
-  border: 1px solid black;
+  width: 40vw;
 }

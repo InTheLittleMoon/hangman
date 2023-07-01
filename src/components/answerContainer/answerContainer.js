@@ -6,9 +6,12 @@ export default function AnswerContainer({ currentWord, correctLetters }) {
     <div className="correct-letters-container">
       {currentWord.split("").map((letter, index) => {
         return (
-          <span key={index} className="letter">
-            {correctLetters.includes(letter) ? letter : ""}
-          </span>
+          <div className="letter-container">
+            <span key={index} className="letter">
+              {correctLetters.includes(letter) ? letter : ""}
+            </span>
+            <div className="underline"></div>
+          </div>
         );
       })}
     </div>

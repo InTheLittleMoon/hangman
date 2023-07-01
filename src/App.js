@@ -11,13 +11,24 @@ function App() {
   const [currentWord, setCurrentWord] = useState("");
   const [correctLetters, setCorrectLetters] = useState([]);
   const [wrongLetters, setWrongLetters] = useState([]);
+  const [attempts, setAttempts] = useState(null);
   const [playable, setPlayable] = useState(true);
+
+  //when your word is assigned, you have 60% of its length in tries
+  const getAttemptsLeft = (arr) => {
+    console.log(arr);
+    const sixtyPercent = arr.length * 0.6;
+    let retVal = Math.floor(sixtyPercent);
+    setAttempts(retVal);
+  };
 
   const getWord = async () => {
     await fetch("https://random-word-api.herokuapp.com/word")
       .then((res) => res.json())
       .then((data) => {
         setCurrentWord(data[0]);
+        getAttemptsLeft(data);
+        console.log(attempts);
       })
       .catch((error) => console.log("Error in fetch call"));
 
@@ -63,14 +74,7 @@ function App() {
 
   return (
     <div className="main-container">
-      <button
-        onClick={() => {
-          getWord();
-        }}
-      >
-        new word
-      </button>
-      <Header />
+      <Header currentWord={currentWord} attempts={attempts} getWord={getWord} />
       <AnswerContainer
         correctLetters={correctLetters}
         currentWord={currentWord}
