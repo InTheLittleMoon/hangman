@@ -3,7 +3,6 @@
   flex-direction: column;
   justify-content: center;
   height: 10vh;
-  border-bottom: 1px solid black;
 }
 
 .wrongLetters-title {
@@ -12,4 +11,8 @@
 
 .wrongLetters-receptical {
   display: flex;
+}
+
+.wrongLetter {
+  font-weight: bold;
 }

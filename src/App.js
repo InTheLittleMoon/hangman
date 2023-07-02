@@ -6,19 +6,23 @@ import AnswerContainer from "./components/answerContainer/answerContainer";
 import UsedLetterContainer from "./components/usedLetterContainer/usedLetterContainer";
 import Header from "./components/header/header";
 
-function App() {
+export default function App() {
   //held states
   const [currentWord, setCurrentWord] = useState("");
   const [correctLetters, setCorrectLetters] = useState([]);
   const [wrongLetters, setWrongLetters] = useState([]);
   const [attempts, setAttempts] = useState(null);
   const [playable, setPlayable] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [showFailurePopup, setShowFailurePopup] = useState(false);
 
   const getWord = async () => {
-    let temp = await fetch("https://random-word-api.herokuapp.com/word")
+    await fetch("https://random-word-api.herokuapp.com/word")
       .then((res) => res.json())
       .then((data) => {
-        setCurrentWord(data[0]);
+        let allCapsWord = data[0].toUpperCase();
+        setCurrentWord(allCapsWord);
       })
       .catch((error) => console.log("Error in fetch call"));
   };
@@ -42,23 +46,51 @@ function App() {
   // should track wrong letters and decrement attempts, switching playable to false at 0
   useEffect(() => {
     if (attempts !== null) {
-      if (attempts === 0) {
-        setPlayable(false);
-      } else {
-        setAttempts((prevVal) => {
-          let newVal = prevVal - 1;
-          return newVal;
-        });
-      }
+      setAttempts((prevVal) => {
+        let newVal = prevVal - 1;
+        return newVal;
+      });
     }
   }, [wrongLetters]);
+
+  const endTheGame = () => {
+    setPlayable(false);
+    setShowFailurePopup(true);
+  };
+
+  useEffect(() => {
+    if (attempts === 0) {
+      endTheGame();
+    }
+
+    return;
+  }, [attempts]);
+
+  //should end game if word is guessed
+  useEffect(() => {
+    //stops popup render on first load
+    if (currentWord === "") {
+      return;
+    }
+
+    const uniqueLetters = new Set(currentWord.split(""));
+    console.log(uniqueLetters);
+
+    if (
+      Array.from(uniqueLetters).every((letter) =>
+        correctLetters.includes(letter)
+      )
+    ) {
+      setShowSuccessPopup(true);
+    }
+  }, [correctLetters, currentWord]);
 
   //should track keyboard inputs for game when window is primarily focused
   useEffect(() => {
     const handlekeyboardinput = (event) => {
       const { key, keyCode } = event;
       if (playable && keyCode >= 65 && keyCode <= 90) {
-        const letter = key.toLowerCase();
+        const letter = key.toUpperCase();
         const word = currentWord;
 
         //if letter choice is correct
@@ -68,6 +100,8 @@ function App() {
             setCorrectLetters((currentLetters) => [...currentLetters, letter]);
           } else {
             //should display a 'same letter' notification
+            setShowPopup(true);
+            setTimeout(() => setShowPopup(false), 1500);
           }
         }
         //if letter choice is wrong
@@ -77,6 +111,8 @@ function App() {
             setWrongLetters((currentLetters) => [...currentLetters, letter]);
           } else {
             //should display a 'same letter' notification
+            setShowPopup(true);
+            setTimeout(() => setShowPopup(false), 1500);
           }
         }
       }
@@ -92,6 +128,20 @@ function App() {
     getWord();
   }, []);
 
+  //when game is over
+  const tryAgain = () => {
+    setCurrentWord("");
+    setCorrectLetters([]);
+    setWrongLetters([]);
+    setAttempts(null);
+    setPlayable(true);
+    setShowPopup(false);
+    setShowSuccessPopup(false);
+    setShowFailurePopup(false);
+
+    getWord();
+  };
+
   return (
     <div className="main-container">
       <Header currentWord={currentWord} attempts={attempts} getWord={getWord} />
@@ -100,8 +150,41 @@ function App() {
         currentWord={currentWord}
       />
       <UsedLetterContainer wrongLetters={wrongLetters} />
+      {showPopup && (
+        <div className="popup">You've already tried this letter!</div>
+      )}
+
+      {showSuccessPopup && (
+        <div className="sailure-container">
+          <div className="success-popup">
+            Congratulations, you've guessed the word!
+          </div>
+          <button
+            className="tryAgain"
+            onClick={() => {
+              tryAgain();
+            }}
+          >
+            Try Again?
+          </button>
+        </div>
+      )}
+
+      {showFailurePopup && (
+        <div className="failure-container">
+          <div className="failure-popup">
+            Sorry, you've failed guessed the word!
+          </div>
+          <button
+            className="tryAgain"
+            onClick={() => {
+              tryAgain();
+            }}
+          >
+            Try Again?
+          </button>
+        </div>
+      )}
     </div>
   );
 }
-
-export default App;

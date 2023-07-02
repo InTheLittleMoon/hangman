@@ -1,13 +1,69 @@
 * {
   margin: 0%;
   padding: 0%;
+  font-family: "Urbanist", sans-serif;
 }
 
 .main-container {
   position: relative;
   display: flex;
   flex-direction: column;
-  top: 10vh;
+  top: 2vh;
   margin: auto;
   width: 40vw;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f44336;
+  color: white;
+  font-size: 160%;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  z-index: 1000;
+}
+
+.success-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #4caf50;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  z-index: 1000;
+  font-size: 160%;
+}
+
+.failure-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f44336;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  z-index: 1000;
+  font-size: 160%;
+}
+
+.tryAgain {
+  margin-top: 10%;
+  width: 8vw;
+  height: 4vh;
+  font-size: 80%;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.tryAgain:hover {
+  cursor: pointer;
 }

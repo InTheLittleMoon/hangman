@@ -6,14 +6,6 @@ export default function Header({ currentWord, attempts, getWord }) {
     <div className="header-container">
       <h1>Hangman</h1>
       <h3>Attempts left: {attempts}</h3>
-      <button
-        onClick={() => {
-          getWord();
-        }}
-      >
-        New Word
-      </button>
-      <div>{currentWord}</div>
     </div>
   );
 }

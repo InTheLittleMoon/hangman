@@ -5,7 +5,7 @@ export default function UsedLetterContainer({ wrongLetters }) {
   return (
     <div className="used-letters-container">
       {wrongLetters.length > 0 && (
-        <p className="wrongLetters-title">Wrong Letters:</p>
+        <h2 className="wrongLetters-title">Wrong Letters:</h2>
       )}
       <div className="wrongLetters-receptical">
         {wrongLetters
